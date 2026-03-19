@@ -197,7 +197,7 @@
       .mobile-menu-emblem { flex-shrink: 0; display: flex; align-items: center; padding-top: 0; align-self: center; margin-top: 28px; }
       .mobile-menu-emblem img { width: 143px; height: 143px; }
 
-      /* HERO — text first, banner below, banner centered & bigger */
+      /* HERO */
       header { height: 96px; }
       .hero { padding-top: 96px; }
       .hero-inner {
@@ -213,18 +213,15 @@
       .hero-banner-mobile {
         position: relative !important;
         top: unset !important; left: unset !important;
-        width: 100% !important;
-        height: auto !important;
-        transform: none !important;
-        order: 2;
-        display: block !important;
-        margin: 0 auto;
-        object-fit: contain;
-        object-position: center center;
+        width: 100% !important; height: auto !important; transform: none !important;
+        order: 2; display: block !important; margin: 0 auto;
+        object-fit: contain; object-position: center center;
       }
       .hero-btn-wrap {
         order: 3; width: 100%;
-        display: flex !important; justify-content: center; padding: 0 0 20px; margin-top: -32px;
+        display: flex !important; justify-content: center;
+        padding: 0 0 32px; margin-top: -44px;
+        position: relative; z-index: 2;
       }
       .hero-content { padding: 0; max-width: 100%; }
       .hero-text-block { max-width: 100%; }
@@ -233,44 +230,27 @@
       .hero-title { display: none; }
       .hero-desc { font-size: 22px; max-width: 100%; margin-bottom: 0; line-height: 1.7; }
       .hero-text-block .btn-outline { display: none !important; }
-      .hero-btn-wrap {
-        order: 3; width: 100%;
-        display: flex !important; justify-content: center; padding: 0 0 32px;
-        margin-top: -44px;
-        position: relative; z-index: 2;
-      }
-      .hero-btn-wrap .btn-outline { width: 150px; height: 44px; font-size: 15px; display: inline-flex; }
-      .hero-text-block .btn-outline { display: none; }
       .hero-btn-wrap .btn-outline { width: 150px; height: 44px; font-size: 15px; display: inline-flex; }
 
-      /* PRODUCTS — slide animation */
+      /* PRODUCTS carousel */
       .section-products-wrap { padding: 40px 0 80px; }
       .section-inner { padding: 0 20px; max-width: 100%; }
       .section-heading h2 { font-size: 22px; }
       .section-subheading { font-size: 14px; margin-bottom: 24px; }
 
       .products-grid-wrap { position: relative; min-height: 420px; }
-      .products-grid {
-        display: flex !important;
-        overflow: visible;
-        gap: 0;
-        min-height: 420px;
-      }
+      .products-grid { display: flex !important; overflow: visible; gap: 0; min-height: 420px; }
+
+      /* Hide all cards by default on mobile, JS shows active one */
       .product-card {
         flex: 0 0 100%;
+        display: none !important;
         padding: 0 48px;
         flex-direction: column;
         align-items: center;
       }
-      .product-card.active-slide {
-        display: flex;
-      }
-      .product-card.slide-out-left {
-        display: flex;
-      }
-      .product-card.slide-in-right {
-        display: flex;
-      }
+      /* JS adds active-slide class to show the card */
+      .product-card.active-slide { display: flex !important; }
       .product-image-wrap { aspect-ratio: 1/1.05; width: 100%; }
       .product-name { font-size: 14px; }
       .product-volume { font-size: 11px; }
