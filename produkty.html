@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <title>FITCANN — Produkty</title>
+  <style>
+    @font-face { font-family: "FuturaCyrillic"; src: url("fonts/FuturaCyrillicBook.ttf") format("truetype"); font-weight: 400; }
+    @font-face { font-family: "AvenirNextCyr"; src: url("fonts/AvenirNextCyr-Thin.ttf") format("truetype"); font-weight: 100; }
+    @font-face { font-family: "AvenirNextCyr"; src: url("fonts/AvenirNextCyr-Light.ttf") format("truetype"); font-weight: 300; }
+    @font-face { font-family: "AvenirNextCyr"; src: url("fonts/AvenirNextCyr-Regular.ttf") format("truetype"); font-weight: 400; }
+    @font-face { font-family: "AvenirNextCyr"; src: url("fonts/AvenirNextCyr-Medium.ttf") format("truetype"); font-weight: 500; }
+    @font-face { font-family: "AvenirNextCyr"; src: url("fonts/AvenirNextCyr-Demi.ttf") format("truetype"); font-weight: 600; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000;
+      --white: #fff;
+      --green: #003729;
+      --avenir: "AvenirNextCyr", Helvetica, sans-serif;
+      --futura: "FuturaCyrillic", Helvetica, sans-serif;
+    }
+    html, body { background: var(--white); color: var(--black); font-family: var(--avenir); -webkit-font-smoothing: antialiased; }
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAVIGATION ── */
+    header { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: var(--white); height: 72px; display: flex; align-items: center; box-shadow: 0 1px 0 rgba(0,0,0,0.07); }
+    nav { max-width: 960px; width: 100%; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+    .nav-logo { justify-self: start; }
+    .nav-logo img { height: 36px; width: auto; display: block; }
+    .nav-center { display: flex; align-items: center; gap: 40px; justify-self: center; }
+    .nav-link { font-family: var(--avenir); font-weight: 400; font-size: 15px; letter-spacing: 1px; color: var(--black); transition: color 0.2s; position: relative; display: inline-block; line-height: 72px; padding: 0; }
+    .nav-link:hover { color: #003729; }
+    .nav-link.active { color: #003729; }
+    .nav-link::after { content: ''; position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); height: 2px; opacity: 0; transition: opacity 0.2s; }
+    .nav-link:hover::after, .nav-link.active::after { opacity: 1; }
+    .nav-link-produkty::after { width: 74px; background-image: url("img/nav-produkty.svg"); background-repeat: no-repeat; background-position: center; }
+    .nav-link-onas::after { width: 37px; background-image: url("img/nav-onas.svg"); background-repeat: no-repeat; background-position: center; }
+    .nav-emblem { display: flex; align-items: center; }
+    .nav-emblem img { width: 56px; height: 56px; display: block; }
+
+    /* Desktop: hide mobile elements */
+    .hamburger { display: none; }
+    .nav-mobile-emblem { display: none; }
+    .mobile-menu { display: none; }
+    .footer-mobile-logo { display: none; }
+    .footer-col-social-wrap { display: contents; }
+
+    /* ── PAGE HEADER ── */
+    .page-hero {
+      padding-top: 72px;
+      padding-bottom: 0;
+      text-align: center;
+    }
+    .page-hero-inner {
+      padding: 80px 24px 0;
+    }
+    .page-title {
+      font-family: var(--avenir);
+      font-weight: 400;
+      font-size: 28px;
+      letter-spacing: 6px;
+      color: var(--black);
+      margin-bottom: 20px;
+    }
+    .page-title-line {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 60px;
+    }
+    .page-title-line img {
+      max-width: 312px;
+      height: auto;
+    }
+
+    /* ── PRODUCTS GRID ── */
+    .products-section { padding: 0 0 140px; }
+    .products-inner { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px 24px;
+    }
+    .product-card {
+      display: flex; flex-direction: column; align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      transform-origin: center bottom;
+    }
+    .product-card:hover { transform: translateY(-8px) scale(1.05); }
+    .product-image-wrap {
+      width: 100%; aspect-ratio: 1/1.1;
+      display: flex; align-items: flex-end; justify-content: center;
+      background: transparent; padding-bottom: 4px;
+    }
+    .product-image-wrap img { width: 100%; height: 100%; object-fit: contain; }
+    .product-info { text-align: center; padding: 8px 0 6px; margin-top: -4px; }
+    .product-volume { font-family: var(--avenir); font-weight: 300; font-size: 12px; letter-spacing: 0.5px; opacity: 0.6; margin-bottom: 4px; }
+    .product-name { font-family: var(--avenir); font-weight: 300; font-size: 15px; letter-spacing: 0.3px; line-height: 1.5; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid rgba(0,0,0,0.08); padding: 48px 0 32px; }
+    .footer-inner { max-width: 700px; margin: 0 auto; padding: 0 40px; display: grid; grid-template-columns: 1fr 1fr auto; align-items: start; gap: 60px; }
+    .footer-col h3 { font-family: var(--avenir); font-weight: 600; font-size: 18px; color: #000; margin-bottom: 14px; }
+    .footer-links { display: flex; flex-direction: column; gap: 0; }
+    .footer-links a { font-family: var(--avenir); font-weight: 400; font-size: 15px; color: #000; text-decoration: underline; line-height: 2; transition: opacity 0.2s; }
+    .footer-links a:hover { opacity: 0.6; }
+    .social-links { display: flex; flex-direction: column; gap: 0; }
+    .social-link { display: flex; align-items: center; gap: 10px; font-family: var(--avenir); font-weight: 400; font-size: 15px; color: #000; line-height: 2; transition: opacity 0.2s; }
+    .social-link:hover { opacity: 0.6; }
+    .social-icon { width: 20px; height: 20px; flex-shrink: 0; }
+    .social-icon img { width: 20px; height: 20px; object-fit: contain; }
+    .footer-logo-col { display: flex; justify-content: center; align-items: center; }
+    .footer-logo-img { width: 160px; height: 160px; }
+    .footer-bottom { max-width: 700px; margin: 0 auto; padding: 24px 40px 0; text-align: center; }
+    .footer-bottom p { font-family: var(--avenir); font-weight: 300; font-size: 13px; font-style: italic; color: #000; opacity: 0.75; }
+    .myza-credit { display: inline-block; cursor: default; transition: transform 0.3s ease; position: relative; overflow: hidden; }
+    .myza-credit:hover { transform: scale(1.18); }
+    .myza-credit::after { content: ''; position: absolute; top: -10%; left: -120%; width: 60%; height: 120%; background: linear-gradient(105deg, transparent 20%, rgba(160,80,220,0.5) 50%, transparent 80%); pointer-events: none; transition: left 1.1s ease; }
+    .myza-credit:hover::after { left: 180%; }
+    .footer-bottom strong { font-style: normal; font-weight: 500; }
+
+    /* ══════════════════════════════════════
+       MOBILE ONLY — max 768px
+    ══════════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* NAV */
+      .nav-center { display: none !important; }
+      .nav-logo { visibility: hidden !important; grid-column: 1; }
+      nav { max-width: 100%; padding: 0 20px; grid-template-columns: 1fr auto 1fr; }
+      .nav-mobile-emblem {
+        display: flex !important; align-items: center;
+        justify-content: center; justify-self: center; grid-column: 2;
+      }
+      .nav-mobile-emblem img { width: 68px; height: 68px; }
+      .nav-center { grid-column: 2; }
+      .hamburger {
+        display: flex !important; flex-direction: column; justify-content: center;
+        gap: 6px; width: 48px; height: 48px; cursor: pointer;
+        background: none; border: none; padding: 4px;
+        justify-self: end; grid-column: 3;
+      }
+      .hamburger span { display: block; width: 28px; height: 2px; background: var(--black); border-radius: 2px; }
+
+      /* MOBILE MENU */
+      .mobile-menu {
+        display: block !important; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--white); z-index: 999; padding: 32px 28px 40px;
+        transform: translateX(100%); transition: transform 0.35s ease;
+        overflow-y: auto; visibility: hidden;
+      }
+      .mobile-menu.open { transform: translateX(0); visibility: visible; }
+      .mobile-menu-top {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 8px; padding-bottom: 0; position: relative;
+      }
+      .mobile-menu-top::after {
+        content: ''; position: absolute; bottom: 0; left: 0;
+        width: 50%; height: 2px; background: var(--green);
+      }
+      .mobile-menu-top img { height: 68px; margin-bottom: 3px; }
+      .mobile-close { background: none; border: none; cursor: pointer; font-size: 28px; color: var(--black); line-height: 1; padding: 0; font-weight: 300; margin-bottom: 3px; }
+      .mobile-nav-links { display: flex; flex-direction: column; margin-bottom: 44px; margin-top: 40px; }
+      .mobile-nav-link {
+        display: flex; align-items: center; justify-content: flex-start; gap: 12px;
+        font-family: var(--avenir); font-weight: 400; font-size: 22px;
+        color: var(--black); padding: 16px 0; text-decoration: none; transition: color 0.2s;
+        text-align: left; width: 100%;
+      }
+      .mobile-nav-link::before { content: "•"; color: var(--green); font-size: 12px; flex-shrink: 0; }
+      .mobile-nav-link.active { color: var(--green); font-weight: 600; }
+      .mobile-social-section { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+      .mobile-social-left { flex: 1; }
+      .mobile-social-title { font-family: var(--avenir); font-weight: 700; font-size: 20px; color: var(--black); margin-bottom: 14px; }
+      .mobile-social-links { display: flex; flex-direction: column; gap: 4px; }
+      .mobile-social-link { display: flex; align-items: center; gap: 14px; font-family: var(--avenir); font-size: 17px; color: var(--black); text-decoration: none; padding: 3px 0; }
+      .mobile-social-link img { width: 28px; height: 28px; }
+      .mobile-menu-emblem { flex-shrink: 0; display: flex; align-items: center; align-self: center; margin-top: 28px; }
+      .mobile-menu-emblem img { width: 143px; height: 143px; }
+
+      /* PAGE TITLE */
+      header { height: 96px; }
+      .page-hero { padding-top: 96px; }
+      .page-hero-inner { padding: 48px 24px 0; }
+      .page-title { font-size: 22px; letter-spacing: 4px; }
+
+      /* PRODUCTS — single column */
+      .products-section { padding: 0 0 80px; }
+      .products-grid {
+        grid-template-columns: 1fr;
+        max-width: 340px;
+        margin: 0 auto;
+        gap: 16px;
+      }
+      .product-card:hover { transform: none; }
+
+      /* FOOTER */
+      .footer-inner { grid-template-columns: 1fr; gap: 28px; padding: 0 24px; max-width: 100%; }
+      .footer-logo-col { display: none !important; }
+      .footer-col-social-wrap { display: flex !important; align-items: flex-start; justify-content: space-between; gap: 16px; }
+      .footer-col-social-wrap .footer-col { flex: 1; }
+      .footer-mobile-logo { display: flex !important; align-items: flex-start; flex-shrink: 0; align-self: flex-start; margin-top: 52px; }
+      .footer-mobile-logo img { width: 121px; height: 121px; }
+      .footer-col h3 { font-size: 20px; }
+      .footer-links a { font-size: 17px; }
+      .social-link { font-size: 17px; }
+      .footer-bottom { padding: 20px 24px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header>
+    <nav>
+      <a href="index.html" onclick="return true;" class="nav-logo">
+        <img src="img/logo-text.svg" alt="FITCANN logo" />
+      </a>
+      <div class="nav-mobile-emblem">
+        <img src="img/logo-kulate.svg" alt="" />
+      </div>
+      <div class="nav-center">
+        <a href="produkty.html" class="nav-link nav-link-produkty active">PRODUKTY</a>
+        <a href="index.html" class="nav-emblem">
+          <img src="img/logo-kulate.svg" alt="" />
+        </a>
+        <a href="o-nas.html" class="nav-link nav-link-onas">O NÁS</a>
+      </div>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Otevřít menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-top">
+      <img src="img/logo-text.svg" alt="FITCANN logo" />
+      <button class="mobile-close" id="mobileClose">&#x2715;</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">Úvod</a>
+      <a href="produkty.html" class="mobile-nav-link active">Produkty</a>
+      <a href="o-nas.html" class="mobile-nav-link">O nás</a>
+    </nav>
+    <div class="mobile-social-section">
+      <div class="mobile-social-left">
+        <p class="mobile-social-title">Sleduj nás</p>
+        <div class="mobile-social-links">
+          <a href="https://www.instagram.com/fitcannsport/" class="mobile-social-link" target="_blank" rel="noopener"><img src="img/icon-instagram.png" alt="Instagram" /> Instagram</a>
+          <a href="https://www.facebook.com/fitcannsport/" class="mobile-social-link" target="_blank" rel="noopener"><img src="img/icon-facebook.png" alt="Facebook" /> Facebook</a>
+          <a href="https://www.youtube.com/@fitcann1978?app=desktop" class="mobile-social-link" target="_blank" rel="noopener"><img src="img/icon-youtube.png" alt="YouTube" /> YouTube</a>
+          <a href="https://x.com/fitcannsport" class="mobile-social-link" target="_blank" rel="noopener"><img src="img/icon-x.png" alt="X" /> X</a>
+        </div>
+      </div>
+      <div class="mobile-menu-emblem">
+        <img src="img/logo-kulate.svg" alt="FITCANN emblem" />
+      </div>
+    </div>
+  </div>
+
+  <main style="flex:1;">
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <h1 class="page-title">PRODUKTY</h1>
+      <div class="page-title-line">
+        <img src="img/cara.svg" alt="" />
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products-section">
+    <div class="products-inner">
+      <div class="products-grid">
+
+        <article class="product-card" onclick="location.href='produkt-chladiva.html'" style="cursor:pointer;">
+          <div class="product-image-wrap">
+            <img src="img/chladiva.svg" alt="FITCANN Mast Chladivá 100ml" />
+          </div>
+          <div class="product-info">
+            <p class="product-volume">100 ml</p>
+            <p class="product-name">FITCANN MAST<br>CHLADIVÁ</p>
+          </div>
+        </article>
+
+        <article class="product-card" onclick="location.href='produkt-mast.html'" style="cursor:pointer;">
+          <div class="product-image-wrap">
+            <img src="img/mockup.svg" alt="FITCANN Mast 100ml" />
+          </div>
+          <div class="product-info">
+            <p class="product-volume">100 ml</p>
+            <p class="product-name">FITCANN MAST</p>
+          </div>
+        </article>
+
+        <article class="product-card" onclick="location.href='produkt-hrejiva.html'" style="cursor:pointer;">
+          <div class="product-image-wrap">
+            <img src="img/hrejiva.svg" alt="FITCANN Mast Hřejivá 100ml" />
+          </div>
+          <div class="product-info">
+            <p class="product-volume">100 ml</p>
+            <p class="product-name">FITCANN MAST<br>HŘEJIVÁ</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h3>Informace</h3>
+        <div class="footer-links">
+          <a href="o-nas.html">O nás</a>
+          <a href="kontakt.html">Kontakt</a>
+          <a href="obchodni-podminky.html">Obchodní podmínky</a>
+          <a href="ochrana-osobnich-udaju.html">Ochrana osobních údajů</a>
+        </div>
+      </div>
+      <div class="footer-col-social-wrap">
+        <div class="footer-col">
+          <h3>Sleduj nás</h3>
+          <div class="social-links">
+            <a href="https://www.instagram.com/fitcannsport/" class="social-link" target="_blank" rel="noopener"><span class="social-icon"><img src="img/icon-instagram.png" alt="Instagram" /></span>Instagram</a>
+            <a href="https://www.facebook.com/fitcannsport/" class="social-link" target="_blank" rel="noopener"><span class="social-icon"><img src="img/icon-facebook.png" alt="Facebook" /></span>Facebook</a>
+            <a href="https://www.youtube.com/@fitcann1978?app=desktop" class="social-link" target="_blank" rel="noopener"><span class="social-icon"><img src="img/icon-youtube.png" alt="YouTube" /></span>YouTube</a>
+            <a href="https://x.com/fitcannsport" class="social-link" target="_blank" rel="noopener"><span class="social-icon"><img src="img/icon-x.png" alt="X" /></span>X</a>
+          </div>
+        </div>
+        <div class="footer-mobile-logo"><img src="img/logo-kulate.svg" alt="FITCANN logo" /></div>
+      </div>
+      <div class="footer-logo-col">
+        <img class="footer-logo-img" src="img/logo-kulate.svg" alt="FITCANN logo" />
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p><span class="myza-credit"><em>Designed by</em> <strong>Mýža</strong></span></p>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('hamburgerBtn');
+    const menu = document.getElementById('mobileMenu');
+    const closeBtn = document.getElementById('mobileClose');
+    if (btn && menu && closeBtn) {
+      btn.addEventListener('click', () => menu.classList.add('open'));
+      closeBtn.addEventListener('click', () => menu.classList.remove('open'));
+    }
+  </script>
+</body>
+</html>
