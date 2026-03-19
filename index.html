@@ -3,6 +3,10 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob: *;">
+
+  <link rel="icon" type="image/svg+xml" href="img/logo-kulate.svg">
+  <link rel="shortcut icon" type="image/svg+xml" href="img/logo-kulate.svg">
   <title>FITCANN</title>
   <style>
     @font-face { font-family: "FuturaCyrillic"; src: url("fonts/FuturaCyrillicBook.ttf") format("truetype"); font-weight: 400; }
@@ -359,8 +363,8 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
-      <img class="hero-banner-img hero-banner-desktop" src="img/banner-desktop.png" alt="FITCANN masti s přírodními kameny" />
-      <img class="hero-banner-img hero-banner-mobile" src="img/banner-mobile.svg" alt="FITCANN masti" />
+      <img class="hero-banner-img hero-banner-desktop" src="img/banner-desktop.png" loading="eager" decoding="auto" alt="FITCANN masti s přírodními kameny" />
+      <img class="hero-banner-img hero-banner-mobile" src="img/banner-mobile.svg" loading="eager" decoding="auto" alt="FITCANN masti" />
       <div class="hero-overlay">
         <div class="hero-content">
           <div class="hero-text-block">
