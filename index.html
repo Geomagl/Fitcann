@@ -241,16 +241,13 @@
       .products-grid-wrap { position: relative; min-height: 420px; }
       .products-grid { display: flex !important; overflow: visible; gap: 0; min-height: 420px; }
 
-      /* Hide all cards by default on mobile, JS shows active one */
       .product-card {
         flex: 0 0 100%;
-        display: none !important;
         padding: 0 48px;
         flex-direction: column;
         align-items: center;
       }
-      /* JS adds active-slide class to show the card */
-      .product-card.active-slide { display: flex !important; }
+      .product-card.active-slide { display: flex; }
       .product-image-wrap { aspect-ratio: 1/1.05; width: 100%; }
       .product-name { font-size: 14px; }
       .product-volume { font-size: 11px; }
