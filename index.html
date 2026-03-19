@@ -239,13 +239,14 @@
       .section-subheading { font-size: 14px; margin-bottom: 24px; }
 
       .products-grid-wrap { position: relative; min-height: 420px; }
-      .products-grid { display: flex !important; overflow: visible; gap: 0; min-height: 420px; }
+      .products-grid { display: block !important; min-height: 420px; }
 
       .product-card {
-        flex: 0 0 100%;
+        width: 100%;
         padding: 0 48px;
         flex-direction: column;
         align-items: center;
+        display: none;
       }
       .product-card.active-slide { display: flex; }
       .product-image-wrap { aspect-ratio: 1/1.05; width: 100%; }
@@ -377,11 +378,11 @@
             <div class="product-image-wrap"><img src="img/chladiva.svg" alt="FITCANN Mast Chladivá 100ml" /></div>
             <div class="product-info"><p class="product-volume">100 ml</p><p class="product-name">FITCANN MAST<br>CHLADIVÁ</p></div>
           </article>
-          <article class="product-card" aria-label="FITCANN MAST" onclick="location.href='produkt-mast.html'" style="cursor:pointer;">
+          <article class="product-card" aria-label="FITCANN MAST" onclick="location.href='produkt-mast.html'" style="cursor:pointer; display:none;">
             <div class="product-image-wrap"><img src="img/mockup.svg" alt="FITCANN Mast 100ml" /></div>
             <div class="product-info"><p class="product-volume">100 ml</p><p class="product-name">FITCANN MAST</p></div>
           </article>
-          <article class="product-card" aria-label="FITCANN MAST HŘEJIVÁ" onclick="location.href='produkt-hrejiva.html'" style="cursor:pointer;">
+          <article class="product-card" aria-label="FITCANN MAST HŘEJIVÁ" onclick="location.href='produkt-hrejiva.html'" style="cursor:pointer; display:none;">
             <div class="product-image-wrap"><img src="img/hrejiva.svg" alt="FITCANN Mast Hřejivá 100ml" /></div>
             <div class="product-info"><p class="product-volume">100 ml</p><p class="product-name">FITCANN MAST<br>HŘEJIVÁ</p></div>
           </article>
@@ -441,21 +442,21 @@
 
       function initCards() {
         if (window.innerWidth > 768) {
-          // Desktop: reset all inline styles
-          cards.forEach(c => { c.style.cssText = ''; });
+          cards.forEach(c => {
+            c.style.cssText = '';
+            c.classList.remove('active-slide');
+          });
           return;
         }
-        // Mobile: show only first, hide rest
+        current = 0;
         cards.forEach((c, i) => {
+          c.style.opacity = '';
+          c.style.transform = '';
+          c.style.transition = '';
           if (i === 0) {
-            c.style.display = 'flex';
-            c.style.flexDirection = 'column';
-            c.style.alignItems = 'center';
-            c.style.opacity = '1';
-            c.style.transform = 'translateX(0)';
+            c.classList.add('active-slide');
           } else {
-            c.style.display = 'none';
-            c.style.opacity = '0';
+            c.classList.remove('active-slide');
           }
         });
       }
@@ -469,18 +470,14 @@
         const cur = cards[current];
         const nxt = cards[nextIdx];
 
-        // Show next card off-screen instantly
-        nxt.style.display = 'flex';
-        nxt.style.flexDirection = 'column';
-        nxt.style.alignItems = 'center';
+        // Show next card instantly (off-screen)
+        nxt.classList.add('active-slide');
         nxt.style.transition = 'none';
         nxt.style.opacity = '0';
         nxt.style.transform = dir === 'right' ? 'translateX(50px)' : 'translateX(-50px)';
 
-        // Force reflow
         void nxt.offsetWidth;
 
-        // Animate both
         const tr = 'opacity 0.35s ease, transform 0.35s ease';
         cur.style.transition = tr;
         nxt.style.transition = tr;
@@ -490,7 +487,7 @@
         nxt.style.transform = 'translateX(0)';
 
         setTimeout(() => {
-          cur.style.display = 'none';
+          cur.classList.remove('active-slide');
           cur.style.transition = '';
           cur.style.opacity = '';
           cur.style.transform = '';
